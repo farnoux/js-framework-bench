@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var chance = require('chance')();
 
 var conversations = [
     { id: 12 },
@@ -57,6 +58,16 @@ var messages = [
     }
 ];
 
+conversations.forEach(conversation => {
+    _.times(15000, () => {
+        messages.push({
+            conversationId: conversation.id,
+            author: 'Bobby',
+            text: chance.string(),
+            timestamp: Date.now()
+        });
+    });
+});
 
 
 
