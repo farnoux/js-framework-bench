@@ -3,11 +3,11 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
-var ConversationMessage = require('./message.jsx');
+var Message = require('./message.jsx');
 
 function getConversationMessage(message, index) {
     return (
-        <ConversationMessage key={index} message={message} />
+        <Message key={index} message={message} />
     )
 }
 
