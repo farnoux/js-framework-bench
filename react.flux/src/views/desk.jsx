@@ -2,7 +2,8 @@
 
 var React = require('react');
 
-var ConversationMessageList = require('./desk/conversationMessageList.jsx');
+var MessageList = require('./desk/messageList.jsx');
+var MessageComposer = require('./desk/messageComposer.jsx');
 var ConversationTabList = require('./desk/conversationTabList.jsx');
 
 var ConversationStore = require('../stores/conversationStore');
@@ -13,18 +14,20 @@ var Desk = React.createClass({
     getInitialState: function() {
 
         return {
-            currentConversation: ConversationStore.getCurrent(),
+            currentConversationId: ConversationStore.getCurrent(),
             conversations: ConversationStore.getAll(),
             messages: MessageStore.getMessages(),
         };
     },
 
     componentDidMount: function() {
-        MessageStore.onChange(this.onChange);
+        MessageStore.onChange(this.onMessagesChange);
+        ConversationStore.onChange(this.onMessagesChange);
     },
 
     componentWillUnmount: function() {
-        MessageStore.offChange(this.onChange);
+        MessageStore.offChange(this.onMessagesChange);
+        ConversationStore.offChange(this.onMessagesChange);
     },
 
     render: function() {
@@ -32,14 +35,16 @@ var Desk = React.createClass({
         return (
           <div>
             <h1 className="Desk">&#9883; React Desk</h1>
-            <ConversationMessageList messages={this.state.messages} />
-            <ConversationTabList conversations={this.state.conversations} />
+            <MessageList messages={this.state.messages} />
+            <MessageComposer />
+            <ConversationTabList
+                conversations={this.state.conversations}
+                currentConversationId={this.state.currentConversationId} />
           </div>
         )
     },
 
-    onChange: function () {
-        console.log('onchange');
+    onMessagesChange: function () {
         this.setState(this.getInitialState());
     }
 

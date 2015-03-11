@@ -70,6 +70,20 @@ var Api = {
 
     getConversations: function () {
         return conversations;
+    },
+
+    createMessage: function (textMessage, conversationId) {
+        var timestamp = Date.now();
+        var message = {
+            id: timestamp,
+            timestamp: timestamp,
+            author: 'Bobby',
+            text: textMessage,
+            conversationId,
+        };
+
+        messages.push(message);
+        return message;
     }
 };
 

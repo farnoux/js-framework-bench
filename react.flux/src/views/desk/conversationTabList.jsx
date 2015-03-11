@@ -11,6 +11,7 @@ function getConversationTab(conversation) {
         <ConversationTab
             key={conversation.id}
             id={conversation.id}
+            activeId={this.props.currentConversationId}
             message={''} />
     )
 }
@@ -18,6 +19,7 @@ function getConversationTab(conversation) {
 var ConversationTabList = React.createClass({
 
     propTypes: {
+        currentConversationId: ReactPropTypes.number,
         conversations: ReactPropTypes.arrayOf(
             ReactPropTypes.shape({
                 id: ReactPropTypes.number.isRequired,
@@ -25,7 +27,7 @@ var ConversationTabList = React.createClass({
         )
     },
     render: function() {
-        var tabList = this.props.conversations.map(getConversationTab);
+        var tabList = this.props.conversations.map(getConversationTab, this);
 
         return (
             <ul className="conversationTabList list-inline">

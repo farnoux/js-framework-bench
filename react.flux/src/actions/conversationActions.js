@@ -7,5 +7,13 @@ module.exports = {
             type: 'conversation.select',
             conversationId
         });
+    },
+
+    createMessage: function (textMessage) {
+        Dispatcher.dispatch({
+            type: 'messsage.create',
+            textMessage
+        })
     }
+
 };
