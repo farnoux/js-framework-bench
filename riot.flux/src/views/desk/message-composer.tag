@@ -1,6 +1,6 @@
 'use strict';
 
-// var ConversationActions = require('../../actions/conversationActions');
+var ConversationActions = require('../../actions/conversationActions');
 
 var ENTER_KEY_CODE = 13;
 
@@ -8,29 +8,23 @@ var ENTER_KEY_CODE = 13;
     <div>
         <textarea
             class="messageComposer"
-            value={text}
-            onChange={onTextChange}
+            name="textInput"
             onKeyDown={onKeyDown} />
     </div>
-
-
-    this.text = '';
-
-    function onTextChange(event) {
-        this.text = event.target.value;
-    }
 
     onKeyDown(event) {
         if (event.keyCode === ENTER_KEY_CODE) {
             event.preventDefault();
-            var text = this.text.trim();
+            var text = this.textInput.value.trim();
 
             if (text) {
                 ConversationActions.createMessage(text);
             }
 
-            this.text = '';
+            this.textInput.value = '';
         }
+
+        return true;
     }
 
 </message-composer>

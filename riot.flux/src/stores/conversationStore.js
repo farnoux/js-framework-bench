@@ -1,5 +1,8 @@
+'use strict';
+
 var riot = require('riot');
 
+var AppDispatcher = require('../dispatcher/appDispatcher');
 var Api = require('../api/api');
 
 var conversations = Api.getConversations();
@@ -30,16 +33,9 @@ var ConversationStore = {
 
 riot.observable(ConversationStore);
 
-// AppDispatcher.register(function (action) {
-
-//     switch (action.type) {
-
-//         case 'conversation.select':
-//             currentConversationId = action.conversationId;
-//             break;
-//     }
-
-//     ConversationStore.emitChange();
-// });
+AppDispatcher.on('conversation.select', action => {
+    currentConversationId = action.conversationId;
+    ConversationStore.emitChange();
+});
 
 module.exports = ConversationStore;

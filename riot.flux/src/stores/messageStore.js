@@ -1,8 +1,10 @@
+'use strict';
 
 var riot = require('riot');
 // var _ = require('lodash');
 
 var ConversationStore = require('./conversationStore');
+var AppDispatcher = require('../dispatcher/appDispatcher');
 var Api = require('../api/api');
 
 var messages = Api.getMessagesForConversation(ConversationStore.getCurrent());
@@ -10,7 +12,7 @@ var messages = Api.getMessagesForConversation(ConversationStore.getCurrent());
 var MessageStore = {
 
     emitChange: function() {
-        this.emit('change');
+        this.trigger('change');
     },
 
     onChange: function (callback) {
@@ -18,7 +20,7 @@ var MessageStore = {
     },
 
     offChange: function (callback) {
-        this.removeListener(callback);
+        this.off('change', callback);
     },
 
     getMessages: function () {
@@ -29,20 +31,14 @@ var MessageStore = {
 
 riot.observable(MessageStore);
 
-// AppDispatcher.register(function (action) {
+AppDispatcher.on('conversation.select', action => {
+    messages = Api.getMessagesForConversation(action.conversationId);
+    MessageStore.emitChange();
+});
 
-//     switch (action.type) {
-
-//         case 'conversation.select':
-//             messages = Api.getMessagesForConversation(action.conversationId);
-//             break;
-
-//         case 'messsage.create':
-//             messages.push(Api.createMessage(action.textMessage, ConversationStore.getCurrent()));
-//             break;
-//     }
-
-//     MessageStore.emitChange();
-// });
+AppDispatcher.on('messsage.create', action => {
+    messages.push(Api.createMessage(action.textMessage, ConversationStore.getCurrent()));
+    MessageStore.emitChange();
+});
 
 module.exports = MessageStore;
