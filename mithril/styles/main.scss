@@ -1,0 +1,33 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.conversationMessages {
+    height: 300px;
+    background-color: lightBlue;
+    padding: 10px;
+}
+
+.conversationTabList {
+    border: 2px solid grey;
+    background-color: grey;
+}
+
+.conversationTab {
+    background-color: lightgrey;
+    border: 1px solid green;
+    margin: 0 0 0 10px;
+    cursor: pointer;
+
+    &.active {
+        background-color: lightGreen;
+    }
+}
+
+.messageComposer {
+    font-size: 14px;
+    height: 5em;
+    width: 100%;
+    margin: 0 0 5px;
+    padding: 10px;
+}
